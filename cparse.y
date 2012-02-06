@@ -105,11 +105,4 @@ names:
 
 %%
 
-int main(void)
-{
-	yyscan_t scanner;
-	yylex_init(&scanner);
-	yyset_in(stdin, scanner);
-	while (yyparse( scanner));
-	yylex_destroy(scanner);
-}
+

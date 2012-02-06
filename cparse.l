@@ -1,6 +1,7 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+
 #define YYSTYPE char*
 #define YYDECL int yylex( YYSTYPE * yylval, yyscan_t yyscanner)
 #define YYLEX_PARAM yyscanner
@@ -8,6 +9,8 @@
 #include "cparse.h"
 
 %}
+
+%option reentrant
 
 digits		[0-9]*
 letters		[a-zA-Z]*
@@ -93,16 +96,26 @@ int check_type() {
 		return(IDENTIFIER);
 }
 
+int lexx(FILE* lexin)
+{
+	yyscan_t scanner;
+	yylex_init(&scanner);
+	yyset_in(lexin, scanner);
+	while (yyparse( scanner));
+	yylex_destroy(scanner);
+	return 0;
+}
 
 int main(int argc, char** argv) {
 	char *programname;
 	char *cfile;
+	FILE *lexin;
 	if (argc == 2) {
 		programname = argv[0];
 		cfile = argv[1];
-		yyin = fopen(cfile, "r");
+		lexin = fopen(cfile, "r");
 		printf("Opened file %s for parsing!\n", cfile);
-		yylex();
+		lexx(lexin);
 		printf("Parsing done!\n");
 	} else {
 		printf("Error! I need c program to parse!\n");
