@@ -2,120 +2,75 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define YYSTYPE char*
-#define YYDECL int yylex( YYSTYPE * yylval, yyscan_t yyscanner)
-#define YYLEX_PARAM yyscanner
-#include "cparse.tab.h"
+#include "cdata.h"
 #include "cparse.h"
 
 %}
 
-%option reentrant
-
 digits		[0-9]*
 letters		[a-zA-Z]*
-validid		[a-zA-Z_][a-zA-Z0-9]+
+validid		[a-zA-Z_][a-zA-Z0-9]*
 
 %%
-"/*"						{ return(COMMENT_START); }
-"*/"						{ return(COMMENT_END); }
+"/*"						{	return(COMMENT_START);	}
+"*/"						{	return(COMMENT_END);	}
 
-"void"						{ count(); return(VOID); }
-"char"						{ count(); return(CHAR); }
-"int"						{ count(); return(INT); }
-"long"						{ count(); return(LONG); }
-"short"						{ count(); return(SHORT); }
-"float"						{ count(); return(FLOAT); }
-"double"					{ count(); return(DOUBLE); }
-"const"						{ count(); return(CONST); }
-"register"					{ count(); return(REGISTER); }
-"signed"					{ count(); return(SIGNED); }
-"unsigned"					{ count(); return(UNSIGNED); }
-"static"					{ count(); return(STATIC); }
-"volatile"					{ count(); return(VOLATILE); }
-"enum"						{ count(); return(ENUM); }
-"struct"					{ count(); return(STRUCT); }
-"union"						{ count(); return(UNION); }
+"void"						{	return(VOID); }
+"char"						{	return(CHAR); }
+"int"						{	return(INT); }
+"long"						{	return(LONG); }
+"short"						{	return(SHORT); }
+"float"						{	return(FLOAT); }
+"double"					{	return(DOUBLE); }
+"const"						{	return(CONST); }
+"register"					{	return(REGISTER); }
+"signed"					{	return(SIGNED); }
+"unsigned"					{	return(UNSIGNED); }
+"static"					{	return(STATIC); }
+"volatile"					{	return(VOLATILE); }
+"enum"						{	return(ENUM); }
+"struct"					{
+								printf("Found struc\n");
+								return(STRUCT);
+							}
+"union"						{	return(UNION); }
 
-"{"							{ count(); return(OBRACE); }
-"}"							{ count(); return(EBRACE); }
-"["							{ count(); return(LBRACKET); }
-"]"							{ count(); return(RBRACKET); }
-";"							{ count(); return(SEMICOLON); }
+"{"							{	return(OBRACE); }
+"}"							{	return(EBRACE); }
+"["							{	return(LBRACKET); }
+"]"							{	return(RBRACKET); }
+";"							{	return(SEMICOLON); }
 
-[ \t\v\n\f]					{ count(); }
-validid						{ count(); return(IDENTIFIER); }
-digits						{ count(); return(NUMBER); }
+[ \t\v\n\f]					{  }
+validid						{	return(IDENTIFIER); }
+digits						{	return(NUMBER); }
 .							{ /* ignore bad characters */ }
 
 %%
 
-yywrap() {
-	return(1);
+void yyerror(char *s) {
+	printf("Error is %s\n", s);
 }
 
-
-comment() {
-		char c, c1;
-
-loop:
-		while ((c = input()) != '*' && c != 0)
-				putchar(c);
-
-		if ((c1 = input()) != '/' && c != 0)
-		{
-				unput(c1);
-				goto loop;
-		}
-
-		if (c != 0)
-				putchar(c1);
-}
-
-
-int column = 0;
-
-void count() {
-		int i;
-
-		for (i = 0; yytext[i] != '\0'; i++)
-				if (yytext[i] == '\n')
-						column = 0;
-				else if (yytext[i] == '\t')
-						column += 8 - (column % 8);
-				else
-						column++;
+int yywrap(void) {
+	return (1);
 }
 
 int check_type() {
-/*
-	if (yytext == type_name)
-		return(TYPE_NAME);
-	else
-*/
-		return(IDENTIFIER);
-}
-
-int lexx(FILE* lexin)
-{
-	yyscan_t scanner;
-	yylex_init(&scanner);
-	yyset_in(lexin, scanner);
-	while (yyparse( scanner));
-	yylex_destroy(scanner);
-	return 0;
+	return(IDENTIFIER);
 }
 
 int main(int argc, char** argv) {
 	char *programname;
 	char *cfile;
-	FILE *lexin;
+	FILE *lexin = NULL;
 	if (argc == 2) {
 		programname = argv[0];
 		cfile = argv[1];
 		lexin = fopen(cfile, "r");
 		printf("Opened file %s for parsing!\n", cfile);
 		lexx(lexin);
+		fclose(lexin);
 		printf("Parsing done!\n");
 	} else {
 		printf("Error! I need c program to parse!\n");

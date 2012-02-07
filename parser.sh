@@ -1,4 +1,4 @@
 #!/bin/sh
-bison -d cparse.y
+lemon cparse.y
 flex cparse.l
-gcc -o cparse lex.yy.c -lfl -lm
+gcc -o cparse cparse.c -lfl -lm

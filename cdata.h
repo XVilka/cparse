@@ -1,19 +1,6 @@
 // TODO: add kernel like (uint8_t) types support
 
 /* ====================== Tokens ===================== */
-
-#define IDENTIFIER				1
-#define TYPE_CHAR				10
-#define TYPE_SHORT				11
-#define TYPE_INT				12
-#define TYPE_LONG				13
-#define BRACKET_LQUADRATIC		22
-#define BRACKET_RQUADRATIC		23
-#define BRACKET_LFIGURE			24
-#define BRACKET_RFIGURE			25
-#define COMPLEX_STRUCT			30
-#define COMPLEX_UNION			31
-
 struct token {
 	char* name;
 	char* value;
