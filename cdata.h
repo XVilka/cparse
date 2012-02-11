@@ -1,5 +1,11 @@
 // TODO: add kernel like (uint8_t) types support
 
+struct Token {
+	int dval;
+	char* sval;
+};
+typedef struct Token Token;
+
 /* ====================== Tokens ===================== */
 struct token {
 	char* name;

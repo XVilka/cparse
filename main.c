@@ -26,6 +26,7 @@ int main(int argc, char** argv)
 	{
 		buf[n] = '\0';
 		printf("%s", buf);
+		printf("==========================\n");
 		yy_scan_string(buf);
 		while ((yv=yylex()) !=0)
 		{
@@ -33,6 +34,7 @@ int main(int argc, char** argv)
 		}
 	}
 	printf("\n\n");
+	printf("---------------------------\n");
 	fclose(cfile);
 	printf("File closed successfully!\n");
 

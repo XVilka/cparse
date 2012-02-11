@@ -9,10 +9,6 @@
 
 %}
 
-digits		[0-9]*
-letters		[a-zA-Z]*
-validid		[a-zA-Z_][a-zA-Z0-9]*
-
 %%
 "void"						{	return(VOID); }
 "char"						{	return(CHAR); }
@@ -38,8 +34,13 @@ validid		[a-zA-Z_][a-zA-Z0-9]*
 ";"							{	return(SEMICOLON); }
 
 [ \t\v\n\f]					{  }
-validid						{	return(IDENTIFIER); }
-digits						{	return(NUMBER); }
+[a-zA-Z_][a-zA-Z0-9_]*		{	
+								yylval.sval = strdup(yytext);
+								return(IDENTIFIER); }
+[0-9]*						{	
+								yylval.dval = atoi(yytext);
+								return(NUMBER); 
+							}
 .							{ /* ignore bad characters */ }
 
 %%

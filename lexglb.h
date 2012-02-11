@@ -1,13 +1,12 @@
 #ifndef YYSTYPE
-/*typedef union {
+typedef struct {
 	long dval;
-	struct symtab *symp;
+	char *sval;
 } yystype;
-*/
-#define YYSTYPE yystype;
-#define YYSTYPE_IS_TRIVIAL 1
+#define YYSTYPE yystype
 #endif
 
 /* extern YYSTYPE yylval; */
 YYSTYPE yylval;
+char *yytext;
 
