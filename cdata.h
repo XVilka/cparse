@@ -6,22 +6,14 @@ struct Token {
 };
 typedef struct Token Token;
 
-/* ====================== Tokens ===================== */
-struct token {
-	char* name;
-	char* value;
-	int type;
-};
-
-typedef struct token_lst token_list;
-struct token_lst {
-	struct token *tok;
-	token_list *next;
-	token_list *prev;
-	token_list *head;
-};
-
-/* ==================== Lexems ====================== */
+#define TYPE_CHAR		0
+#define TYPE_SHORT		1
+#define TYPE_INT		2
+#define TYPE_LONG		3
+#define TYPE_LONGLONG	4
+#define TYPE_FLOAT		5
+#define TYPE_DOUBLE		6
+#define TYPE_VOID		7
 
 #define ITEM_STRUCT				1
 #define ITEM_ARRAY				2
@@ -87,4 +79,8 @@ struct item_lst {
 	item_list *head;
 };
 
-
+int new_variable_node(char* name, int type);
+int new_pointer_node(char* name, int type);
+int new_array_node(char* name, int type, long size);
+int new_struct_node(char* name);
+int new_union_node(char* name);
