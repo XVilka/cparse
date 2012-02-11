@@ -1,7 +1,9 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
+#include "lexglb.h"
 #include "cdata.h"
 #include "cparse.h"
 
@@ -12,12 +14,9 @@ letters		[a-zA-Z]*
 validid		[a-zA-Z_][a-zA-Z0-9]*
 
 %%
-"/*"						{	return(COMMENT_START);	}
-"*/"						{	return(COMMENT_END);	}
-
 "void"						{	return(VOID); }
 "char"						{	return(CHAR); }
-"int"						{	return(INT); }
+"int"						{	return(INTEGER); }
 "long"						{	return(LONG); }
 "short"						{	return(SHORT); }
 "float"						{	return(FLOAT); }
@@ -29,10 +28,7 @@ validid		[a-zA-Z_][a-zA-Z0-9]*
 "static"					{	return(STATIC); }
 "volatile"					{	return(VOLATILE); }
 "enum"						{	return(ENUM); }
-"struct"					{
-								printf("Found struc\n");
-								return(STRUCT);
-							}
+"struct"					{	return(STRUCT);	}
 "union"						{	return(UNION); }
 
 "{"							{	return(OBRACE); }
@@ -56,25 +52,3 @@ int yywrap(void) {
 	return (1);
 }
 
-int check_type() {
-	return(IDENTIFIER);
-}
-
-int main(int argc, char** argv) {
-	char *programname;
-	char *cfile;
-	FILE *lexin = NULL;
-	if (argc == 2) {
-		programname = argv[0];
-		cfile = argv[1];
-		lexin = fopen(cfile, "r");
-		printf("Opened file %s for parsing!\n", cfile);
-		lexx(lexin);
-		fclose(lexin);
-		printf("Parsing done!\n");
-	} else {
-		printf("Error! I need c program to parse!\n");
-		return -1;
-	}
-	return 0;
-}

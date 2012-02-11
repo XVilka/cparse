@@ -3,13 +3,14 @@
 %include {
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 }
 
 %syntax_error {
 	printf("Syntax error!\n");
 }
 
-%name cdataParser
+%name cdataParse
 
 fl ::= deflist.
 deflist ::= deflist def.
@@ -18,9 +19,11 @@ def ::= struct.
 def ::= union.
 def ::= enum.
 def ::= variable.
-struct ::= STRUCT name OBRACE deflist  SEMICOLON.
-union ::= UNION name OBRACE deflist SEMICOLON.
-enum ::= ENUM name OBRACE deflist SEMICOLON.
+struct ::= STRUCT name OBRACE deflist EBRACE SEMICOLON. {
+	printf("Found struct!\n");
+}
+union ::= UNION name OBRACE deflist EBRACE SEMICOLON.
+enum ::= ENUM name OBRACE deflist EBRACE SEMICOLON.
 variable ::= modifier signedness type name SEMICOLON.
 variable ::= modifier signedness type ASTERISK name SEMICOLON.
 variable ::= modifier signedness type name LBRACKET size RBRACKET SEMICOLON.
@@ -43,5 +46,4 @@ modifier ::= CONST.
 modifier ::= REGISTER.
 modifier ::= VOLATILE.
 name ::= IDENTIFIER.
-
 
