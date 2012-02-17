@@ -1,8 +1,13 @@
 TODO
 ====
 
-1. Add support of kernel types (uint8_t) and llvm types (u8)
-2. Add support of comments ( /* */ and // )
-3. Add support of typedef
-4. Add support of preprocessor #define, etc
-5. Add support of initialization
+1. Add support of comments ( /* */ and // )
+2. Add support of typedef
+3. Add support of preprocessor #define, etc
+4. Add support of initialization
+
+LICENSE
+=======
+
+This software shipped under public domain
+
