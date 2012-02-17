@@ -41,5 +41,6 @@ int main(int argc, char** argv)
 
 	cdataParse(pParser, 0, yylval, ctx);
 	cdataParseFree(pParser, free);
+	print_tree(ctx);
 	return EXIT_SUCCESS;
 }

@@ -23,7 +23,6 @@
 "unsigned"					{	return(UNSIGNED); }
 "static"					{	return(STATIC); }
 "volatile"					{	return(VOLATILE); }
-"enum"						{	return(ENUM); }
 "struct"					{	return(STRUCT);	}
 "union"						{	return(UNION); }
 

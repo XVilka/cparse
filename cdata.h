@@ -7,12 +7,6 @@ struct Token {
 
 typedef struct Token Token;
 
-struct tree_thread {
-	int level;
-};
-
-typedef struct tree_thread;
-
 #define TYPE_CHAR		0
 #define TYPE_SHORT		1
 #define TYPE_INT		2
@@ -33,9 +27,11 @@ typedef struct tree_thread;
 #define VAR_VOLATILE 3
 
 #define ITEM_STRUCT				1
-#define ITEM_ARRAY				2
-#define ITEM_POINTER			3
-#define ITEM_VARIABLE			4
+#define ITEM_UNION				2
+#define ITEM_ENUM				3
+#define ITEM_ARRAY				4
+#define ITEM_POINTER			5
+#define ITEM_VARIABLE			6
 
 struct item_variable {
 	char* name;
@@ -89,6 +85,13 @@ struct item_struct {
 	item_list *items;
 };
 
+struct item_union {
+	char* name;
+	long size;
+	int level;
+	item_list *items;
+};
+
 struct item_lst {
 	short item_type;
 	union {
@@ -96,14 +99,17 @@ struct item_lst {
 		struct item_pointer *ptr;
 		struct item_array *arr;
 		struct item_struct *str;
+		struct item_union *un;
 	} item;
 	item_list *next;
 	item_list *prev;
 	item_list *head;
 };
 
-int new_variable_node(item_list *ctx, char* name, short type, short sign, short modifier);
-int new_pointer_node(item_list *ctx, char* name, short type, short sign, short modifier);
-int new_array_node(item_list *ctx, char* name, short type, short sign, short modifier, long size);
-int new_struct_node(item_list *ctx, char* name);
-int new_union_node(item_list *ctx, char* name);
+item_list* new_variable_node(item_list *ctx, char* name, short type, short sign, short modifier);
+item_list* new_pointer_node(item_list *ctx, char* name, short type, short sign, short modifier);
+item_list* new_array_node(item_list *ctx, char* name, short type, short sign, short modifier, long size);
+item_list* new_struct_node(item_list *ctx, char* name, item_list *defs);
+item_list* new_union_node(item_list *ctx, char* name, item_list *defs);
+
+int print_tree(item_list *tmp);

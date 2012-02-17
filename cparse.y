@@ -16,30 +16,37 @@
 
 %extra_argument {item_list *ctx}
 
-program ::= deflist.
-deflist ::= deflist def.
-deflist ::= def.
-def ::= struct.
-def ::= union.
-def ::= enum.
-def ::= variable.
-def ::= pointer.
-def ::= array.
-struct ::= STRUCT name(A) OBRACE deflist EBRACE SEMICOLON. {
-	new_struct_node(ctx, A.sval);
+%type source {item_list *}
+%type deflist {item_list *}
+%type def {item_list *}
+%type struct {item_list *}
+%type union {item_list *}
+%type variable {item_list *}
+%type pointer {item_list *}
+%type array {item_list *}
+
+source(A) ::= deflist(B). { A = B; ctx = A; }
+deflist(A) ::= deflist(B) def(C). { B->next = C; A = B; }
+deflist(A) ::= def(B). { A = B; }
+def(A) ::= struct(B). { A = B; }
+def(A) ::= union(B). { A = B; }
+def(A) ::= variable(B). { A = B; }
+def(A) ::= pointer(B). { A = B; } 
+def(A) ::= array(B). { A = B; }
+struct(A) ::= STRUCT name(B) OBRACE deflist(C) EBRACE SEMICOLON. {
+	A = new_struct_node(ctx, B.sval, C);
 }
-union ::= UNION name(A) OBRACE deflist EBRACE SEMICOLON. {
-	new_union_node(ctx, A.sval);
+union(A) ::= UNION name(B) OBRACE deflist(C) EBRACE SEMICOLON. {
+	A = new_union_node(ctx, B.sval, C);
 }
-enum ::= ENUM name(A) OBRACE deflist EBRACE SEMICOLON.
-variable ::= modifier(D) signedness(C) type(B) name(A) SEMICOLON. {
-	new_variable_node(ctx, A.sval, B.dval, C.dval, D.dval);
+variable(A) ::= modifier(E) signedness(D) type(C) name(B) SEMICOLON. {
+	A = new_variable_node(ctx, B.sval, C.dval, D.dval, E.dval);
 }
-pointer ::= modifier(D) signedness(C) type(B) ASTERISK name(A) SEMICOLON. {
-	new_pointer_node(ctx, A.sval, B.dval, C.dval, D.dval);
+pointer(A) ::= modifier(E) signedness(D) type(C) ASTERISK name(B) SEMICOLON. {
+	A = new_pointer_node(ctx, B.sval, C.dval, D.dval, E.dval);
 }
-array ::= modifier(E) signedness(D) type(C) name(A) LBRACKET size(B) RBRACKET SEMICOLON. {
-	new_array_node(ctx, A.sval, C.dval, D.dval, E.dval, B.dval);
+array(A) ::= modifier(F) signedness(E) type(D) name(B) LBRACKET size(C) RBRACKET SEMICOLON. {
+	A = new_array_node(ctx, B.sval, D.dval, E.dval, F.dval, C.dval);
 }
 size(A) ::= NUMBER(B). { A.dval = B.dval; }
 type ::= .
