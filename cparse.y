@@ -61,7 +61,7 @@ variable(A) ::= modifier(E) shorttype(C) name(B) SEMICOLON. {
 pointer(A) ::= modifier(E) signedness(D) type(C) ASTERISK name(B) SEMICOLON. {
 	A = new_pointer_node(B.sval, C.dval, D.dval, E.dval);
 }
-pointer(A) ::= modifier(E) shorttype(C) name(B) ASTERISK name(B) SEMICOLON. {
+pointer(A) ::= modifier(E) shorttype(C) ASTERISK name(B) SEMICOLON. {
 	switch (C.dval) {
 		case UINT8_T:
 			A = new_pointer_node(B.sval, TYPE_SHORT, TYPE_UNSIGNED, E.dval);
