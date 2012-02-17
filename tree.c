@@ -93,33 +93,15 @@ item_list* new_array_node(char* name, short type, short sign, short modifier, lo
 	return tmp;
 }
 
-/* Do i need reverse "defs" in normal order? */
-
-item_list* list_reverse(item_list *defs)
-{
-	item_list *t;
-	item_list *q = defs;
-	item_list *p = NULL;
-	while (q != NULL) {
-		t = q->next;
-		q->next = p;
-		p = q;
-		q = t;
-	}
-	return p;
-}
-
 item_list* new_struct_node(char* name, item_list *defs)
 {
-	item_list *itms;
-	itms = list_reverse(defs);
 	printf("STRUCT---\n");
-	print_tree(itms);
+	print_tree(defs);
 	printf("---ENDOFSTRUCT\n");
 	struct item_struct *istr = (struct item_struct *)malloc(sizeof(struct item_struct));
 	item_list *tmp = (item_list *)malloc(sizeof(item_list));
 	istr->name = name;
-	istr->items = itms;
+	istr->items = defs;
 	tmp->next = NULL;
 	tmp->item_type = ITEM_STRUCT;
 	tmp->item.str = istr;
@@ -129,15 +111,13 @@ item_list* new_struct_node(char* name, item_list *defs)
 
 item_list* new_union_node(char* name, item_list *defs)
 {
-	item_list *itms;
-	itms = list_reverse(defs);
 	printf("UNION---\n");
-	print_tree(itms);
+	print_tree(defs);
 	printf("---ENDOFUNION\n");
 	struct item_union *iun = (struct item_union *)malloc(sizeof(struct item_union));
 	item_list *tmp = (item_list *)malloc(sizeof(item_list));
 	iun->name = name;
-	iun->items = itms;
+	iun->items = defs;
 	tmp->next = NULL;
 	tmp->item_type = ITEM_UNION;
 	tmp->item.un = iun;

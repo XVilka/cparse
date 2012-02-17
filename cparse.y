@@ -24,7 +24,7 @@
 %type array {item_list *}
 
 source(A) ::= deflist(B). { A = B; }
-deflist(A) ::= deflist(B) def(C). { C->next = B; A = C; }
+deflist(A) ::= def(B) deflist(C). { B->next = C; A = B; }
 deflist(A) ::= def(B). { A = B; }
 def(A) ::= struct(B). { A = B; }
 def(A) ::= union(B). { A = B; }
