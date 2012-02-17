@@ -4,7 +4,14 @@ struct Token {
 	int dval;
 	char* sval;
 };
+
 typedef struct Token Token;
+
+struct strucContx {
+	int level;
+};
+
+typedef struct strucContx strucContx;
 
 #define TYPE_CHAR		0
 #define TYPE_SHORT		1
@@ -79,8 +86,8 @@ struct item_lst {
 	item_list *head;
 };
 
-int new_variable_node(char* name, int type);
-int new_pointer_node(char* name, int type);
-int new_array_node(char* name, int type, long size);
-int new_struct_node(char* name);
-int new_union_node(char* name);
+int new_variable_node(strucContx *ctx, char* name, int type);
+int new_pointer_node(strucContx *ctx, char* name, int type);
+int new_array_node(strucContx *ctx, char* name, int type, long size);
+int new_struct_node(strucContx *ctx, char* name);
+int new_union_node(strucContx *ctx, char* name);

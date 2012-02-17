@@ -14,6 +14,8 @@
 %token_type {Token}
 %default_type {Token}
 
+%extra_argument {strucContx *ctx}
+
 program ::= deflist.
 deflist ::= deflist def.
 deflist ::= def.
@@ -24,18 +26,20 @@ def ::= variable.
 def ::= pointer.
 def ::= array.
 struct ::= STRUCT name(A) OBRACE deflist EBRACE SEMICOLON. {
-	new_struct_node(A.sval);
+	new_struct_node(ctx, A.sval);
 }
-union ::= UNION name(A) OBRACE deflist EBRACE SEMICOLON.
+union ::= UNION name(A) OBRACE deflist EBRACE SEMICOLON. {
+	new_union_node(ctx, A.sval);
+}
 enum ::= ENUM name(A) OBRACE deflist EBRACE SEMICOLON.
 variable ::= modifier signedness type(B) name(A) SEMICOLON. {
-	new_variable_node(A.sval, B.dval);
+	new_variable_node(ctx, A.sval, B.dval);
 }
 pointer ::= modifier signedness type(B) ASTERISK name(A) SEMICOLON. {
-	new_pointer_node(A.sval, B.dval);
+	new_pointer_node(ctx, A.sval, B.dval);
 }
 array ::= modifier signedness type(C) name(A) LBRACKET size(B) RBRACKET SEMICOLON. {
-	new_array_node(A.sval, B.dval, C.dval);
+	new_array_node(ctx, A.sval, B.dval, C.dval);
 }
 size(A) ::= NUMBER(B). { A.dval = B.dval; }
 type ::= .
