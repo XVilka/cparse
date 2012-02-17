@@ -39,7 +39,7 @@ pointer ::= modifier(D) signedness(C) type(B) ASTERISK name(A) SEMICOLON. {
 	new_pointer_node(ctx, A.sval, B.dval, C.dval, D.dval);
 }
 array ::= modifier(E) signedness(D) type(C) name(A) LBRACKET size(B) RBRACKET SEMICOLON. {
-	new_array_node(ctx, A.sval, B.dval, D.dval, E.dval, C.dval);
+	new_array_node(ctx, A.sval, C.dval, D.dval, E.dval, B.dval);
 }
 size(A) ::= NUMBER(B). { A.dval = B.dval; }
 type ::= .
