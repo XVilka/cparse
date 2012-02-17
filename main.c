@@ -17,6 +17,7 @@ int main(int argc, char** argv)
 	char buf[4096];
 	FILE *cfile;
 	void* pParser = cdataParseAlloc(malloc);
+	item_list *ctx = (item_list *)malloc(sizeof(item_list));
 
 	cfile = fopen("test_parser.c", "ro");
 	if (cfile != NULL)
@@ -30,7 +31,7 @@ int main(int argc, char** argv)
 		yy_scan_string(buf);
 		while ((yv=yylex()) !=0)
 		{
-			cdataParse(pParser, yv, yylval);
+			cdataParse(pParser, yv, yylval, ctx);
 		}
 	}
 	printf("\n\n");
@@ -38,7 +39,7 @@ int main(int argc, char** argv)
 	fclose(cfile);
 	printf("File closed successfully!\n");
 
-	cdataParse(pParser, 0, yylval);
+	cdataParse(pParser, 0, yylval, ctx);
 	cdataParseFree(pParser, free);
 	return EXIT_SUCCESS;
 }

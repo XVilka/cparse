@@ -7,11 +7,11 @@ struct Token {
 
 typedef struct Token Token;
 
-struct strucContx {
+struct tree_thread {
 	int level;
 };
 
-typedef struct strucContx strucContx;
+typedef struct tree_thread;
 
 #define TYPE_CHAR		0
 #define TYPE_SHORT		1
@@ -86,8 +86,8 @@ struct item_lst {
 	item_list *head;
 };
 
-int new_variable_node(strucContx *ctx, char* name, int type);
-int new_pointer_node(strucContx *ctx, char* name, int type);
-int new_array_node(strucContx *ctx, char* name, int type, long size);
-int new_struct_node(strucContx *ctx, char* name);
-int new_union_node(strucContx *ctx, char* name);
+int new_variable_node(item_list *ctx, char* name, int type);
+int new_pointer_node(item_list *ctx, char* name, int type);
+int new_array_node(item_list *ctx, char* name, int type, long size);
+int new_struct_node(item_list *ctx, char* name);
+int new_union_node(item_list *ctx, char* name);

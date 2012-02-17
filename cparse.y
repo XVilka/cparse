@@ -14,7 +14,7 @@
 %token_type {Token}
 %default_type {Token}
 
-%extra_argument {strucContx *ctx}
+%extra_argument {item_list *ctx}
 
 program ::= deflist.
 deflist ::= deflist def.
