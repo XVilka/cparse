@@ -41,7 +41,7 @@ int print_tree(item_list *tmp) {
 	return 0;
 }
 
-item_list* new_variable_node(item_list *ctx, char* name, short type, short sign, short modifier)
+item_list* new_variable_node(char* name, short type, short sign, short modifier)
 {
 	struct item_variable *ivar = (struct item_variable *)malloc(sizeof(struct item_variable));
 	item_list *tmp;
@@ -57,7 +57,7 @@ item_list* new_variable_node(item_list *ctx, char* name, short type, short sign,
 	return tmp;
 }
 
-item_list* new_pointer_node(item_list *ctx, char* name, short type, short sign, short modifier)
+item_list* new_pointer_node(char* name, short type, short sign, short modifier)
 {
 	struct item_pointer *iptr = (struct item_pointer *)malloc(sizeof(struct item_pointer));
 	item_list *tmp;
@@ -75,7 +75,7 @@ item_list* new_pointer_node(item_list *ctx, char* name, short type, short sign, 
 	return tmp;
 }
 
-item_list* new_array_node(item_list *ctx, char* name, short type, short sign, short modifier, long size)
+item_list* new_array_node(char* name, short type, short sign, short modifier, long size)
 {
 	struct item_array *iarr = (struct item_array *)malloc(sizeof(struct item_array));
 	item_list *tmp;
@@ -109,12 +109,13 @@ item_list* list_reverse(item_list *defs)
 	return p;
 }
 
-item_list* new_struct_node(item_list *ctx, char* name, item_list *defs)
+item_list* new_struct_node(char* name, item_list *defs)
 {
 	item_list *itms;
 	itms = list_reverse(defs);
-	printf("Members are:\n");
+	printf("STRUCT---\n");
 	print_tree(itms);
+	printf("---ENDOFSTRUCT\n");
 	struct item_struct *istr = (struct item_struct *)malloc(sizeof(struct item_struct));
 	item_list *tmp = (item_list *)malloc(sizeof(item_list));
 	istr->name = name;
@@ -126,12 +127,13 @@ item_list* new_struct_node(item_list *ctx, char* name, item_list *defs)
 	return tmp;
 }
 
-item_list* new_union_node(item_list *ctx, char* name, item_list *defs)
+item_list* new_union_node(char* name, item_list *defs)
 {
 	item_list *itms;
 	itms = list_reverse(defs);
-	printf("Members are:\n");
+	printf("UNION---\n");
 	print_tree(itms);
+	printf("---ENDOFUNION\n");
 	struct item_union *iun = (struct item_union *)malloc(sizeof(struct item_union));
 	item_list *tmp = (item_list *)malloc(sizeof(item_list));
 	iun->name = name;

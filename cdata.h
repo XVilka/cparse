@@ -1,5 +1,3 @@
-// TODO: add kernel like (uint8_t) types support
-
 struct Token {
 	int dval;
 	char* sval;
@@ -106,10 +104,10 @@ struct item_lst {
 	item_list *head;
 };
 
-item_list* new_variable_node(item_list *ctx, char* name, short type, short sign, short modifier);
-item_list* new_pointer_node(item_list *ctx, char* name, short type, short sign, short modifier);
-item_list* new_array_node(item_list *ctx, char* name, short type, short sign, short modifier, long size);
-item_list* new_struct_node(item_list *ctx, char* name, item_list *defs);
-item_list* new_union_node(item_list *ctx, char* name, item_list *defs);
+item_list* new_variable_node(char* name, short type, short sign, short modifier);
+item_list* new_pointer_node(char* name, short type, short sign, short modifier);
+item_list* new_array_node(char* name, short type, short sign, short modifier, long size);
+item_list* new_struct_node(char* name, item_list *defs);
+item_list* new_union_node(char* name, item_list *defs);
 
 int print_tree(item_list *tmp);

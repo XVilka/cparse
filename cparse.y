@@ -14,8 +14,6 @@
 %token_type {Token}
 %default_type {Token}
 
-%extra_argument {item_list *ctx}
-
 %type source {item_list *}
 %type deflist {item_list *}
 %type def {item_list *}
@@ -34,19 +32,19 @@ def(A) ::= variable(B). { A = B; }
 def(A) ::= pointer(B). { A = B; } 
 def(A) ::= array(B). { A = B; }
 struct(A) ::= STRUCT name(B) OBRACE deflist(C) EBRACE SEMICOLON. {
-	A = new_struct_node(ctx, B.sval, C);
+	A = new_struct_node(B.sval, C);
 }
 union(A) ::= UNION name(B) OBRACE deflist(C) EBRACE SEMICOLON. {
-	A = new_union_node(ctx, B.sval, C);
+	A = new_union_node(B.sval, C);
 }
 variable(A) ::= modifier(E) signedness(D) type(C) name(B) SEMICOLON. {
-	A = new_variable_node(ctx, B.sval, C.dval, D.dval, E.dval);
+	A = new_variable_node(B.sval, C.dval, D.dval, E.dval);
 }
 pointer(A) ::= modifier(E) signedness(D) type(C) ASTERISK name(B) SEMICOLON. {
-	A = new_pointer_node(ctx, B.sval, C.dval, D.dval, E.dval);
+	A = new_pointer_node(B.sval, C.dval, D.dval, E.dval);
 }
 array(A) ::= modifier(F) signedness(E) type(D) name(B) LBRACKET size(C) RBRACKET SEMICOLON. {
-	A = new_array_node(ctx, B.sval, D.dval, E.dval, F.dval, C.dval);
+	A = new_array_node(B.sval, D.dval, E.dval, F.dval, C.dval);
 }
 size(A) ::= NUMBER(B). { A.dval = B.dval; }
 type ::= .

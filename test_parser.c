@@ -11,6 +11,13 @@ struct highlight {
 			long a;
 			long b;
 			char c;
+			struct dsfgdfg {
+				struct ghjhgj {
+					struct fghkjfdhgl {
+						long bg;			
+					};
+				};
+			};
 		};
 		long zied[15];
 	};
