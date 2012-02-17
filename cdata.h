@@ -16,6 +16,11 @@ typedef struct Token Token;
 #define TYPE_SIGNED		8
 #define TYPE_UNSIGNED	9
 
+#define UINT8_T		1
+#define UINT16_T	2
+#define UINT32_T	3
+#define UINT64_T	4
+
 #define NONE_SIGN	11
 #define NONE_MODIFIER 12
 

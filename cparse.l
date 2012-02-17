@@ -26,6 +26,15 @@
 "struct"					{	return(STRUCT);	}
 "union"						{	return(UNION); }
 
+"u8"						{	return(UINT8); }
+"uint8_t"					{	return(UINT8); }
+"u16"						{	return(UINT16); }
+"uint16_t"					{	return(UINT16); }
+"u32"						{	return(UINT32); }
+"uint32_t"					{	return(UINT32); }
+"u64"						{	return(UINT64); }
+"uint64_t"					{	return(UINT64); }
+
 "{"							{	return(OBRACE); }
 "}"							{	return(EBRACE); }
 "["							{	return(LBRACKET); }

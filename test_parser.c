@@ -8,9 +8,9 @@ struct highlight {
 		char *qwe;
 		char* lst;
 		struct wefs {
-			long a;
+			u32 a;
 			long b;
-			char c;
+			uint8_t c;
 			struct dsfgdfg {
 				struct ghjhgj {
 					struct fghkjfdhgl {
