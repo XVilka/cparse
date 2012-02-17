@@ -21,6 +21,16 @@ typedef struct tree_thread;
 #define TYPE_FLOAT		5
 #define TYPE_DOUBLE		6
 #define TYPE_VOID		7
+#define TYPE_SIGNED		8
+#define TYPE_UNSIGNED	9
+
+#define NONE_SIGN	11
+#define NONE_MODIFIER 12
+
+#define VAR_STATIC 0
+#define VAR_CONST  1
+#define VAR_REGISTER 2
+#define VAR_VOLATILE 3
 
 #define ITEM_STRUCT				1
 #define ITEM_ARRAY				2
@@ -29,7 +39,9 @@ typedef struct tree_thread;
 
 struct item_variable {
 	char* name;
-	int type;
+	short type;
+	short sign;
+	short modifier;
 	int size;
 	union {
 		short shrt;
@@ -41,7 +53,9 @@ struct item_variable {
 
 struct item_pointer {
 	char* name;
-	int type;
+	short type;
+	short sign;
+	short modifier;
 	int size;
 	union {
 		short shrt;
@@ -53,14 +67,16 @@ struct item_pointer {
 
 struct item_array {
 	char* name;
-	int type;
+	short type;
+	short sign;
+	short modifier;
 	long size;
 	long count;
 	union {
-		short shrt;
-		int intgr;
-		long lng;
-		char chr;
+		short *shrt;
+		int *intgr;
+		long *lng;
+		char *chr;
 	} value;
 };
 
@@ -86,8 +102,8 @@ struct item_lst {
 	item_list *head;
 };
 
-int new_variable_node(item_list *ctx, char* name, int type);
-int new_pointer_node(item_list *ctx, char* name, int type);
-int new_array_node(item_list *ctx, char* name, int type, long size);
+int new_variable_node(item_list *ctx, char* name, short type, short sign, short modifier);
+int new_pointer_node(item_list *ctx, char* name, short type, short sign, short modifier);
+int new_array_node(item_list *ctx, char* name, short type, short sign, short modifier, long size);
 int new_struct_node(item_list *ctx, char* name);
 int new_union_node(item_list *ctx, char* name);

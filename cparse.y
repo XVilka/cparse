@@ -32,14 +32,14 @@ union ::= UNION name(A) OBRACE deflist EBRACE SEMICOLON. {
 	new_union_node(ctx, A.sval);
 }
 enum ::= ENUM name(A) OBRACE deflist EBRACE SEMICOLON.
-variable ::= modifier signedness type(B) name(A) SEMICOLON. {
-	new_variable_node(ctx, A.sval, B.dval);
+variable ::= modifier(D) signedness(C) type(B) name(A) SEMICOLON. {
+	new_variable_node(ctx, A.sval, B.dval, C.dval, D.dval);
 }
-pointer ::= modifier signedness type(B) ASTERISK name(A) SEMICOLON. {
-	new_pointer_node(ctx, A.sval, B.dval);
+pointer ::= modifier(D) signedness(C) type(B) ASTERISK name(A) SEMICOLON. {
+	new_pointer_node(ctx, A.sval, B.dval, C.dval, D.dval);
 }
-array ::= modifier signedness type(C) name(A) LBRACKET size(B) RBRACKET SEMICOLON. {
-	new_array_node(ctx, A.sval, B.dval, C.dval);
+array ::= modifier(E) signedness(D) type(C) name(A) LBRACKET size(B) RBRACKET SEMICOLON. {
+	new_array_node(ctx, A.sval, B.dval, D.dval, E.dval, C.dval);
 }
 size(A) ::= NUMBER(B). { A.dval = B.dval; }
 type ::= .
@@ -51,13 +51,13 @@ type(A) ::= LONG LONG. { A.sval = "long long"; A.dval = TYPE_LONGLONG; }
 type(A) ::= FLOAT. { A.sval = "float"; A.dval = TYPE_FLOAT; }
 type(A) ::= DOUBLE. { A.sval = "double"; A.dval = TYPE_DOUBLE; }
 type(A) ::= VOID. { A.sval = "void"; A.dval = TYPE_VOID; }
-signedness ::= .
-signedness ::= SIGNED.
-signedness ::= UNSIGNED.
-modifier ::= .
-modifier ::= STATIC.
-modifier ::= CONST.
-modifier ::= REGISTER.
-modifier ::= VOLATILE.
+signedness(A) ::= . { A.sval = ""; A.dval = NONE_SIGN; }
+signedness(A) ::= SIGNED. { A.sval = "signed"; A.dval = TYPE_SIGNED; }
+signedness(A) ::= UNSIGNED. { A.sval = "unsigned"; A.dval = TYPE_UNSIGNED; }
+modifier(A) ::= . { A.sval = ""; A.dval = NONE_MODIFIER; }
+modifier(A) ::= STATIC. { A.sval = "static"; A.dval = VAR_STATIC; }
+modifier(A) ::= CONST. {A.sval = "const"; A.dval = VAR_CONST; }
+modifier(A) ::= REGISTER. { A.sval = "register"; A.dval = VAR_REGISTER; }
+modifier(A) ::= VOLATILE. { A.sval = "volatile"; A.dval = VAR_VOLATILE; }
 name(A) ::= IDENTIFIER(B). { A.sval = B.sval; }
 
