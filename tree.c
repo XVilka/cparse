@@ -12,7 +12,7 @@ int print_tree(item_list *tmp) {
 	if (p != NULL) {
 		while (p != NULL) {
 			switch (p->item_type) {
-				case ITEM_VARIABLE:
+				case ITEM_VARIABLE:	
 					printf("var %s\n", p->item.var->name);
 					break;
 				case ITEM_POINTER:
@@ -101,9 +101,6 @@ item_list* new_struct_node(item_list *ctx, char* name, item_list *defs)
 	item_list *tmp = (item_list *)malloc(sizeof(item_list));
 	istr->name = name;
 	istr->items = defs;
-	//printf("Creating new structure \"%s\"\n", name);
-	// cursor->insert_item
-	// set cursor here
 	tmp->next = NULL;
 	tmp->item_type = ITEM_STRUCT;
 	tmp->item.str = istr;
@@ -113,9 +110,14 @@ item_list* new_struct_node(item_list *ctx, char* name, item_list *defs)
 
 item_list* new_union_node(item_list *ctx, char* name, item_list *defs)
 {
-	//struct item_union iun;
-	//iun.name = name;
-	// cursor->insert_item
-	// set cursor here
-	return NULL;
+	printf("Members are:\n");
+	print_tree(defs);
+	struct item_union *iun = (struct item_union *)malloc(sizeof(struct item_union));
+	item_list *tmp = (item_list *)malloc(sizeof(item_list));
+	iun->name = name;
+	iun->items = defs;
+	tmp->next = NULL;
+	tmp->item_type = ITEM_UNION;
+	tmp->item.un = iun;
+	return tmp;
 }

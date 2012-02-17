@@ -25,7 +25,7 @@
 %type pointer {item_list *}
 %type array {item_list *}
 
-source(A) ::= deflist(B). { A = B; ctx = A; }
+source(A) ::= deflist(B). { A = B; }
 deflist(A) ::= deflist(B) def(C). { B->next = C; A = B; }
 deflist(A) ::= def(B). { A = B; }
 def(A) ::= struct(B). { A = B; }
