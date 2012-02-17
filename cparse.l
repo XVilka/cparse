@@ -49,6 +49,9 @@
 								yylval.dval = atoi(yytext);
 								return(NUMBER); 
 							}
+\/\/.*[\n]					{ /* remove comments */ }
+\/\*[\n.]*\*\/				{ /* remove comments */ }
+\/\*([^\*]|\*[^/])*\*\/		{ /* remove multiline comments */ }
 .							{ /* ignore bad characters */ }
 
 %%

@@ -3,6 +3,9 @@ struct highlight {
 	int hex_end;
 	int dat_start;
 	int dat_end;
+	/* multiline
+	 * sample
+	 * comment */
 	struct qwe2 {
 		int linux;
 		char *qwe;
@@ -10,7 +13,7 @@ struct highlight {
 		struct wefs {
 			u32 a;
 			long b;
-			uint8_t c;
+			uint8_t c; // sample comment
 			struct dsfgdfg {
 				struct ghjhgj {
 					struct fghkjfdhgl {

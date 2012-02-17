@@ -1,10 +1,9 @@
 TODO
 ====
 
-1. Add support of comments ( /* */ and // )
-2. Add support of typedef
-3. Add support of preprocessor #define, etc
-4. Add support of initialization
+1. Add support of typedef
+2. Add support of preprocessor #define, etc
+3. Add support of initialization
 
 LICENSE
 =======
