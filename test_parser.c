@@ -17,7 +17,7 @@ struct highlight {
 			struct dsfgdfg {
 				struct ghjhgj {
 					struct fghkjfdhgl {
-						long bg;			
+						long bg;
 					};
 				};
 			};
@@ -32,5 +32,10 @@ struct highlight {
 	};
 	long qwe;
 	int toggle;
+	//[ int ret_a; ] sample_func (int qwe, char* rty, long hex );
 };
+
+function int sample_func ( int qwe, char* rty, long hex );
+function __stdcall int sample_func2( char* name );
+function __attribute__((weak)) inline long long sample_func3(long sf);
 

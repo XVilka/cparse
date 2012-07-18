@@ -3,6 +3,9 @@
 #include "cdata.h"
 #include "lexglb.h"
 
+void *cdataParseAlloc(void *(*mallocProc)(size_t));
+void *cdataParseFree(void *p, void (*freeProc)(void*));
+
 extern FILE *yyin;
 typedef struct yy_buffer_state *YY_BUFFER_STATE;
 
@@ -21,11 +24,11 @@ int main(int argc, char** argv)
 	cfile = fopen("test_parser.c", "ro");
 	if (cfile != NULL)
 		printf("File opened successfully!\n");
-	printf("---------------------------\n");
-	while ((n = fread(buf, 1, 4096, cfile)) > 0)
+	//printf("---------------------------\n");
+	while ((n = fread(buf, 1, sizeof(buf), cfile)) > 0)
 	{
 		buf[n] = '\0';
-		printf("%s", buf);
+		//printf("%s", buf);
 		printf("==========================\n");
 		yy_scan_string(buf);
 		while ((yv=yylex()) !=0)

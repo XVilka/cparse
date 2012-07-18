@@ -23,8 +23,10 @@
 "unsigned"					{	return(UNSIGNED); }
 "static"					{	return(STATIC); }
 "volatile"					{	return(VOLATILE); }
+"inline"					{	return(INLINE); }
 "struct"					{	return(STRUCT);	}
 "union"						{	return(UNION); }
+"function"					{	return(FUNCTION); }
 
 "u8"						{	return(UINT8); }
 "uint8_t"					{	return(UINT8); }
@@ -35,19 +37,26 @@
 "u64"						{	return(UINT64); }
 "uint64_t"					{	return(UINT64); }
 
+"__attribute__"				{	return(ATTRIBUTE); }
+"__stdcall"					{	return(STDCALL); }
+"__ccall"					{	return(CCALL); }
+
 "{"							{	return(OBRACE); }
 "}"							{	return(EBRACE); }
 "["							{	return(LBRACKET); }
 "]"							{	return(RBRACKET); }
+"("							{	return(LPARENT); }
+")"							{	return(RPARENT); }
 ";"							{	return(SEMICOLON); }
+","							{	return(COMMA); }
 
 [ \t\v\n\f]					{  }
-[a-zA-Z_][a-zA-Z0-9_]*		{	
+[a-zA-Z_][a-zA-Z0-9_]*		{
 								yylval.sval = strdup(yytext);
 								return(IDENTIFIER); }
-[0-9]*						{	
+[0-9]*						{
 								yylval.dval = atoi(yytext);
-								return(NUMBER); 
+								return(NUMBER);
 							}
 \/\/.*[\n]					{ /* remove comments */ }
 \/\*[\n.]*\*\/				{ /* remove comments */ }

@@ -12,7 +12,7 @@ int print_tree(item_list *tmp) {
 	if (p != NULL) {
 		while (p != NULL) {
 			switch (p->item_type) {
-				case ITEM_VARIABLE:	
+				case ITEM_VARIABLE:
 					printf("var %s\n", p->item.var->name);
 					break;
 				case ITEM_POINTER:
@@ -28,6 +28,10 @@ int print_tree(item_list *tmp) {
 				case ITEM_UNION:
 					printf("Entering union %s...\n", p->item.un->name);
 					print_tree(p->item.un->items);
+					break;
+				case ITEM_FUNCTION:
+					printf("Entering function %s...\n", p->item.fnc->name);
+					print_tree(p->item.fnc->args);
 					break;
 				default:
 					printf("invalid item!\n");
@@ -49,7 +53,6 @@ item_list* new_variable_node(char* name, short type, short sign, short modifier)
 	ivar->type = type;
 	ivar->sign = sign;
 	ivar->modifier = modifier;
-	//printf("Creating new var \"%s\"\n", name);
 	tmp = (item_list *)malloc(sizeof(item_list));
 	tmp->next = NULL;
 	tmp->item_type = ITEM_VARIABLE;
@@ -65,9 +68,6 @@ item_list* new_pointer_node(char* name, short type, short sign, short modifier)
 	iptr->type = type;
 	iptr->sign = sign;
 	iptr->modifier = modifier;
-	//printf("Creating new ptr \"%s\"\n", name);
-	// calculate pointer size
-	// cursor->insert_item
 	tmp = (item_list *)malloc(sizeof(item_list));
 	tmp->next = NULL;
 	tmp->item_type = ITEM_POINTER;
@@ -84,8 +84,6 @@ item_list* new_array_node(char* name, short type, short sign, short modifier, lo
 	iarr->count = size;
 	iarr->sign = sign;
 	iarr->modifier = modifier;
-	//printf("Creating new array \"%s\"[%ld]\n", name, size);
-	// calculate array size
 	tmp = (item_list *)malloc(sizeof(item_list));
 	tmp->next = NULL;
 	tmp->item_type = ITEM_ARRAY;
@@ -95,9 +93,9 @@ item_list* new_array_node(char* name, short type, short sign, short modifier, lo
 
 item_list* new_struct_node(char* name, item_list *defs)
 {
-	printf("STRUCT---\n");
-	print_tree(defs);
-	printf("---ENDOFSTRUCT\n");
+	//printf("STRUCT---\n");
+	//print_tree(defs);
+	//printf("---ENDOFSTRUCT\n");
 	struct item_struct *istr = (struct item_struct *)malloc(sizeof(struct item_struct));
 	item_list *tmp = (item_list *)malloc(sizeof(item_list));
 	istr->name = name;
@@ -105,15 +103,17 @@ item_list* new_struct_node(char* name, item_list *defs)
 	tmp->next = NULL;
 	tmp->item_type = ITEM_STRUCT;
 	tmp->item.str = istr;
-	//print_tree(tmp);
+	printf("STRUCT---\n");
+	print_tree(tmp);
+	printf("---ENDOFSTRUCT\n");
 	return tmp;
 }
 
 item_list* new_union_node(char* name, item_list *defs)
 {
-	printf("UNION---\n");
-	print_tree(defs);
-	printf("---ENDOFUNION\n");
+	//printf("UNION---\n");
+	//print_tree(defs);
+	//printf("---ENDOFUNION\n");
 	struct item_union *iun = (struct item_union *)malloc(sizeof(struct item_union));
 	item_list *tmp = (item_list *)malloc(sizeof(item_list));
 	iun->name = name;
@@ -123,3 +123,26 @@ item_list* new_union_node(char* name, item_list *defs)
 	tmp->item.un = iun;
 	return tmp;
 }
+
+/* Function can return another function or have multiple returns */
+//item_list* new_function_node(char* name, item_list *rets, item_list *args)
+item_list* new_function_node(char* name, short ret_type, item_list *args, short fmodifier, short callconvention, char* attributes)
+{
+	func_t *ifnc = (func_t *)malloc(sizeof(func_t));
+	item_list *tmp = (item_list *)malloc(sizeof(item_list));
+	ifnc->name = name;
+	ifnc->rets = ret_type;
+	ifnc->fmod = fmodifier;
+	ifnc->call = callconvention;
+	ifnc->attr = attributes;
+	ifnc->args = args;
+	tmp->next = NULL;
+	tmp->item_type = ITEM_FUNCTION;
+	tmp->item.fnc = ifnc;
+	printf("FUNCTION---\n");
+	print_tree(tmp);
+	printf("---ENDOFFUNCTION\n");
+	return tmp;
+}
+
+
